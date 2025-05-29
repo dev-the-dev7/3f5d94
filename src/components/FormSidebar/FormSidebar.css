@@ -1,0 +1,25 @@
+.sidebar {
+  width: 240px;
+  border-right: 1px solid #ddd;
+  padding: 16px;
+  box-sizing: border-box;
+  color: white;
+  background-color: #2E3A46;
+}
+
+.item {
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.item:hover {
+  background: #3A4A5E;
+}
+
+.item.selected {
+  background-color: #1E2A38;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}

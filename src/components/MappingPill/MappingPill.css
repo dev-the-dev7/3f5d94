@@ -1,0 +1,35 @@
+/* Container for the pill + clear button */
+.field-mapping {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* The pill that shows the mapped text */
+.field-mapping__pill {
+  flex-grow: 1;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Unmapped state */
+.field-mapping__pill.unmapped {
+  background: #eee;
+}
+
+/* Mapped state */
+.field-mapping__pill.mapped {
+  background: #cfe8ff;
+  cursor: default;
+}
+
+/* The little 'x' clear button */
+.field-mapping__clear {
+  margin-left: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #d00;
+  font-size: 16px;
+}
