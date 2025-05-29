@@ -174,4 +174,4 @@ This project was completed for the Avantos Frontend Coding Challenge.
 
 ## License
 
-This project is licensed under the GNU GENERAL PUBLIC LICENSE – see the LICENSE.txt file
+This project is licensed under the GNU GENERAL PUBLIC LICENSE – see the LICENSE file
