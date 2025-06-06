@@ -81,9 +81,7 @@ export default function MappingModal({
       <div className="mapping-modal__overlay" onClick={handleClose} />
 
       {/* Side panel */}
-      <div
-        className={'mapping-modal__panel open'}
-      >
+      <div className={'mapping-modal__panel open'} >
         <div className="mapping-modal__content">
           <h2 style={{ marginTop: 0 }}>Map “{targetFieldTitle}”</h2>
           <h4 style={{ margin: '8px 0' }}>Available Data</h4>
@@ -91,6 +89,7 @@ export default function MappingModal({
           {sources.sort(sortSources).map((src) => {
             const isOpen = !!expanded[src.id];
             const options = fieldsCache[src.id] || [];
+            
             return (
               <div key={src.id} style={{ marginBottom: 12 }}>
                 {/* Accordion header */}

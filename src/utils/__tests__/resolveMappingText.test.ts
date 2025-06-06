@@ -12,7 +12,7 @@ describe('resolveMappingText', () => {
         createDataSource(
           'node-a',
           'Form A',
-          false,
+          'Direct',
           async () => [
             createFormField('Form-A-field-1', 'Email', 'string', 'short-text'),
           ]
@@ -31,7 +31,7 @@ describe('resolveMappingText', () => {
         createDataSource(
           'node-a',
           'Form A',
-          false,
+          'Direct',
           async () => [
             createFormField('Form-A-field-1', 'Email', 'string', 'short-text'),
           ]
@@ -50,7 +50,7 @@ describe('resolveMappingText', () => {
         createDataSource(
           'global-id',
           'Global Field',
-          true,
+          'Global',
           async () => [
             createFormField('global-field-1', 'Global Timestamp', 'string', 'date-time', 'date-time'),
           ]
@@ -69,7 +69,7 @@ describe('resolveMappingText', () => {
         createDataSource(
           'global-id',
           'Global Field',
-          true,
+          'Global',
           async () => [
             createFormField('global-field-1', 'Global Timestamp', 'string', 'date-time', 'date-time'),
           ]

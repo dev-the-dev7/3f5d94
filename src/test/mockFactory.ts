@@ -1,4 +1,4 @@
-import type { FormField, FormNode, RawForm, Edge, DataSource } from '@types';
+import type { FormField, FormNode, RawForm, Edge, DataSource, SourceTypes } from '@types';
 
 export function createFormNode(
   id = 'node-a',
@@ -61,13 +61,13 @@ export function createFormField(id = 'global-1', name = 'Global Field', type = '
 export function createDataSource(
   id: string,
   label: string,
-  isGlobal: boolean,
+  SourceType: SourceTypes,
   getFields: () => Promise<FormField[]> = async () => []
 ): DataSource {
   return {
     id,
     label,
-    isGlobal,
+    SourceType,
     getFields,
   };
 }

@@ -26,10 +26,12 @@ export interface RawForm {
   };
 }
 
+export type SourceTypes = "Global" | "Direct" | "Transitive";
+
 export interface DataSource {
   id: string;
   label: string;
-  isGlobal: boolean;
+  SourceType: SourceTypes;
   getFields: () => Promise<FormField[]>;
 }
 

@@ -8,7 +8,7 @@ export async function fetchGlobalSources(): Promise<DataSource[]> {
     createDataSource(
       'global-fields',
       'Global Fields',
-      true,
+      'Global',
       async () => [
         createFormField('global-field-1', 'Global User ID', 'string', 'short-text'),
         createFormField('global-field-2', 'Global Timestamp', 'string', 'date-time', 'date-time'),

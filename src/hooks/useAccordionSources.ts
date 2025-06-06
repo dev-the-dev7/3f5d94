@@ -1,13 +1,6 @@
 import { useState, useMemo } from 'react';
 import type { FormNode, Edge, RawForm, FormField, DataSource } from '@types';
 
-export interface Source {
-  id: string;
-  label: string;
-  isGlobal: boolean;
-  getFields: () => Promise<FormField[]>;
-}
-
 export function useAccordionSources(
   targetNode: FormNode,
   nodes: FormNode[],
@@ -43,14 +36,48 @@ export function useAccordionSources(
 
   // Build global + ancestor sources
   const sources: DataSource[] = useMemo(() => {
-    const parentSrcs: DataSource[] = ancestorNodes.map((n) => ({
-      id: n.id,
-      label: n.data.name,
-      isGlobal: false,
-      getFields: () => getFormFields(n, nodes, edges, forms),
-    }));
+    const parentMap: Record<string, string[]> = {};
+  
+  // Build parent mapping
+  edges.forEach((e) => {
+    parentMap[e.target] = (parentMap[e.target] || []).concat(e.source);
+  });
 
-    return [...globalFields, ...parentSrcs];
+  // Track levels of ancestry
+  const ancestorLevels: Record<string, number> = {};
+  
+  function dfs(id: string, level = 0) {
+    if (ancestorLevels[id] !== undefined) return;
+    ancestorLevels[id] = level;
+    
+    (parentMap[id] || []).forEach((parentId) => {
+      dfs(parentId, level + 1);
+    });
+  }
+
+  dfs(targetNode.id); // Start DFS traversal
+
+  const parentSrcs: DataSource[] = Object.entries(ancestorLevels)
+    .filter(([nid]) => nid !== targetNode.id)
+    .map(([nid, level]) => {
+      const node = nodes.find((n) => n.id === nid);
+      if (!node) return null;
+
+      return {
+        id: node.id,
+        label: node.data.name,
+        SourceType: level === 1 ? "Direct" : "Transitive",
+        getFields: () => getFormFields(node, nodes, edges, forms),
+      };
+    })
+    .filter((n): n is DataSource => Boolean(n));
+
+    // filter by query parameter
+    const paramsString = window.location.search;
+    const searchParams = new URLSearchParams(paramsString);
+    const sourceTypes = searchParams.get("Datasource")?.split(',');
+    const sources = [...globalFields, ...parentSrcs];
+    return sourceTypes == undefined ? sources : sources.filter(src => sourceTypes?.includes(src.SourceType));
   }, [globalFields, ancestorNodes, nodes, edges, forms]);
 
   // Walk the DAG edges upstream from node.id
@@ -60,8 +87,7 @@ export function useAccordionSources(
     allNodes: FormNode[],
     edges: Edge[],
     formMetadata: RawForm[]
-  ): Promise<FormField[]>
-  {
+  ): Promise<FormField[]> {
     // Build parent map
     const parentMap: Record<string, string[]> = {};
     edges.forEach((e) => {

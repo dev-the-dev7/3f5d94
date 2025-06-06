@@ -1,9 +1,25 @@
-// Sort sources based on their label and global status,
-// ensuring global sources appear first.
-export function sortSources<
-  T extends { label: string; isGlobal?: boolean }
->(a: T, b: T): number {
-  if (a.isGlobal && !b.isGlobal) return -1;
-  if (!a.isGlobal && b.isGlobal) return 1;
+import type { SourceTypes } from "@types";
+
+// Define the sorting priority
+const sourceTypePriority: Record<SourceTypes, number> = {
+  Global: 0,
+  Transitive: 1,
+  Direct: 2,
+};
+
+// Sort sources based on SourceType priority and label
+export function sortSources<T extends { label: string; SourceType?: SourceTypes }>(
+  a: T,
+  b: T
+): number {
+  // Compare by source type priority first
+  const typeOrderA = a.SourceType ? sourceTypePriority[a.SourceType] : Infinity;
+  const typeOrderB = b.SourceType ? sourceTypePriority[b.SourceType] : Infinity;
+
+  if (typeOrderA !== typeOrderB) {
+    return typeOrderA - typeOrderB;
+  }
+
+  // If source types are the same, sort alphabetically by label
   return a.label.localeCompare(b.label);
 }
